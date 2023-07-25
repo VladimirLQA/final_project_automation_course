@@ -1,0 +1,32 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "rules": {
+    "@typescript-eslint/no-for-in-array": "error",
+    "indent": ["warn", 4],
+    "quotes": ["error", "single"],
+    "@typescript-eslint/naming-convention": [
+      "warn",
+      {
+        "selector": "variable",
+        "format": [
+          "camelCase",
+          "UPPER_CASE",
+          "snake_case"
+        ]
+      }
+    ],
+    "arrow-body-style": "off",
+    "prefer-arrow/prefer-arrow-functions": "off",
+    "func-style": ["error", "declaration", { "allowArrowFunctions": false }],
+    "@typescript-eslint/no-explicit-any": "on"
+  }
+}
