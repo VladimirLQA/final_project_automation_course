@@ -1,3 +1,5 @@
+import {DifficultyLevel} from "../enums/quiz.enums";
+
 export interface Question {
     question: string;
     options: string[];
@@ -14,5 +16,11 @@ export interface QuestionEditor {
 export interface QuestionCollection {
     getRandomQuestion: () => Question;
     getAllQuestions: () => Question[];
+    getQuestionsByDifficulty: (diffLvl: DifficultyLevel) => Question[];
     // todo getQuestionsByTopic: (topic: string): Question[];
+}
+
+export interface TimerClass {
+      start: () => void;
+      stop: () => number;
 }

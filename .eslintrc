@@ -12,7 +12,7 @@
   "rules": {
     "@typescript-eslint/no-for-in-array": "error",
     "indent": ["warn", 4],
-    "quotes": ["error", "single"],
+    "quotes": ["error", "double"],
     "@typescript-eslint/naming-convention": [
       "warn",
       {
@@ -27,6 +27,7 @@
     "arrow-body-style": "off",
     "prefer-arrow/prefer-arrow-functions": "off",
     "func-style": ["error", "declaration", { "allowArrowFunctions": false }],
-    "@typescript-eslint/no-explicit-any": "on"
+    "@typescript-eslint/no-explicit-any": 1,
+    "semi": [ "warn", "always"]
   }
 }
