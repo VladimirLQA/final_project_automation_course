@@ -22,7 +22,8 @@ export interface IQuestionCollection {
 
 export interface ITimerClass {
       start(): void;
-      stop(): number;
+      stop(): void;
+      getElapsedTime(): number;
 }
 
 export interface IPlayer {
@@ -39,4 +40,10 @@ export interface ICli {
     getPlayerAnswer(): Promise<number>;
     displayResult(isCorrect: boolean, correctAnswer: string | number): void;
     close(): void;
+}
+
+export interface IGame {
+    startGame(): Promise<void>;
+    handleAnswer(playerAnswer: number | null, question?: IQuestion): void;
+    finishGame(): void;
 }

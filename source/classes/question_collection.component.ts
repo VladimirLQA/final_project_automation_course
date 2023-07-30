@@ -1,5 +1,5 @@
 import {IQuestion, IQuestionCollection} from "../typings/interfaces/quiz.interfaces";
-import fs from "fs";
+import * as fs from "fs";
 import {DifficultyLevel} from "../typings/enums/quiz.enums";
 
 const data = fs.readFileSync("/home/vlqa/Desktop/git_repositories/final_project_automation_course/source/questions_collection/question_collection.json", "utf-8");
