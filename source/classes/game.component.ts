@@ -23,7 +23,7 @@ export class Game implements IGame {
     }
 
     async startGame(): Promise<void> {
-        console.log('Welcome to quiz game\n');
+        console.log("Welcome to quiz game\n");
 
         const questions = this.questionCollection.getAllQuestions();
 
@@ -45,14 +45,14 @@ export class Game implements IGame {
         this.finishGame();
     }
 
-     handleAnswer(playerAnswer: number | null, question?: IQuestion): void {
+    handleAnswer(playerAnswer: number | null, question?: IQuestion): void {
         if (playerAnswer !== null && question) {
             const isAnswerCorrect = playerAnswer === question.correctAnswer + 1;
 
             this.cli.displayResult(isAnswerCorrect, question.correctAnswer + 1);
             this.player.incrementScore(10);
         } else {
-            console.log('Время истекло или некорректный ввод.\n');
+            console.log("Time's up or incorrect input value\n");
         }
         this.player.incrementProgress();
     }
@@ -63,4 +63,4 @@ export class Game implements IGame {
 }
 
 const game = new Game("Vova", new QuestionCollection);
-game.startGame()
+game.startGame();
