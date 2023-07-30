@@ -1,4 +1,4 @@
-import {Question, QuestionCollection} from "../typings/interfaces/quiz.interfaces";
+import {IQuestion, IQuestionCollection} from "../typings/interfaces/quiz.interfaces";
 import fs from "fs";
 import {DifficultyLevel} from "../typings/enums/quiz.enums";
 
@@ -6,14 +6,14 @@ const data = fs.readFileSync("/home/vlqa/Desktop/git_repositories/final_project_
 
 
 
-class QuestionCollection implements QuestionCollection {
-    private readonly questions: Question[];
+export class QuestionCollection implements IQuestionCollection {
+    private readonly questions: IQuestion[];
 
     constructor() {
         this.questions = JSON.parse(data);
     }
 
-    getRandomQuestion(): Question {
+    getRandomQuestion(): IQuestion {
         if (this.questions.length === 0) {
             throw new Error("Collection is empty");
         }
@@ -21,11 +21,11 @@ class QuestionCollection implements QuestionCollection {
         return this.questions[Math.floor(Math.random() * this.questions.length)];
     }
 
-    getAllQuestions(): Question[] {
+    getAllQuestions(): IQuestion[] {
         return this.questions;
     }
 
-    getQuestionsByDifficulty(diffLvl: DifficultyLevel): Question[] {
+    getQuestionsByDifficulty(diffLvl: DifficultyLevel): IQuestion[] {
         return this.questions.filter((question) => question.options.length === diffLvl);
     }
 
