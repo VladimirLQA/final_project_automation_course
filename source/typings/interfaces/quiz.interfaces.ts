@@ -24,6 +24,7 @@ export interface ITimerClass {
       start(): void;
       stop(): void;
       getElapsedTime(): number;
+      isExpired(): boolean;
 }
 
 export interface IPlayer {
@@ -46,4 +47,17 @@ export interface IGame {
     startGame(): Promise<void>;
     handleAnswer(playerAnswer: number | null, question?: IQuestion): void;
     finishGame(): void;
+    // getGameResult(question: IQuestion): IGameResult;
+}
+
+// todo implement display of game result
+export interface ISpentTimeOnQuestion {
+    question: string;
+    elapsedTime: number;
+}
+
+export interface IGameResult {
+    progress: number;
+    score: number;
+    spentTimeOnQuestion: ISpentTimeOnQuestion[];
 }
