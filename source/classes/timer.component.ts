@@ -31,4 +31,9 @@ export class Timer implements ITimerClass {
         this.elapsedTime = Math.floor((endTime - this.startTime) / 1000);
         return this.elapsedTime;
     }
+
+    isExpired(): boolean {
+        const currentTime = Date.now();
+        return currentTime - this.startTime >= this.timeLimit * 1000;
+    }
 }

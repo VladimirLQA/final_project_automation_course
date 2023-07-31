@@ -8,7 +8,6 @@ import {Timer} from "./timer.component";
 // const parsedData = JSON.parse(data);
 
 
-
 export class Cli implements ICli {
     private rl: readline.Interface;
     private timer: Timer;
