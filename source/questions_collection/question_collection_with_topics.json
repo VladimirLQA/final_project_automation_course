@@ -1,0 +1,125 @@
+{
+  "movie": [
+    {
+      "question": "How many films did Sean Connery play James Bond in?",
+      "options": [
+        "Seven",
+        "Eight",
+        "Six",
+        "Ten"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "How many Lord of the Rings films are there?",
+      "options": [
+        "Three",
+        "Four",
+        "Six",
+        "Five"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "question": "Which popular TV show featured house Targaryen and Stark?",
+      "options": [
+        "The Wheel of Time",
+        "Spartacus",
+        "The Last Kingdom",
+        "Game of Thrones"
+      ],
+      "correctAnswer": 3
+    },
+    {
+      "question": "In what year was the first episode of South Park aired?",
+      "options": ["1999", "1997"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "What was the name of the actor who played Jack Dawson in Titanic?",
+      "options": ["Bernard Hill", "Leonardo DiCaprio", "Billy Zane", "Bill Paxton"],
+      "correctAnswer": 1
+    }
+  ],
+  "cars": [
+    {
+      "question": "Who is often credited with creating the world’s first car?",
+      "options": ["Karl Benz", "Gottlieb Daimler"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "Which company owns Bugatti, Lamborghini. Audi, Porsche, and Ducati?",
+      "options": [ "Kia", "Mazda", "Volkswagen", "Nissan"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "What does BMW stand for (in English)?",
+      "options": ["Bayerische Mot Whistle", "Bayerische Motorcycle Werke", "Bayerische Motoren Works", "Bavarian Motor Works"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "How many parts (screws and bolts included) does the average car have?",
+      "options": ["30, 000", "35, 000"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "In what year was the Corvette introduced?",
+      "options": ["1952", "1953", "1955", "1950"],
+      "correctAnswer": 1
+    }
+  ],
+  "technology": [
+    {
+      "question": "What year was the very first model of the iPhone released?",
+      "options": ["2007", "2006", "2005", "2008"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "Is Java a type of OS?",
+      "options": ["yes", "no"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "Who is often called the father of the computer?",
+      "options": ["Alan Turing", "Ada Lovelace", "Charles Babbage", "Henry Prevost Babbage"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "What was Twitter’s original name?",
+      "options": ["iter", "x", "RIP", "twttr"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "What does “HTTP” stand for?",
+      "options": ["HyperText Transfer Protocol", "HyperText Tractor Protocol", "HyperText Transfer Prototype", "HyperText Touch Popular"],
+      "correctAnswer": 0
+    }
+  ],
+  "science": [
+    {
+      "question": "Who discovered penicillin?",
+      "options": ["Michael Faraday", "Dmitri Mendeleev", "Alexander Fleming", "Antoine Lavoisier"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "Who was the first woman to win a Nobel Prize (in 1903)?",
+      "options": ["Marie Curie", "Rosalind Franklin"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "What part of the atom has no electric charge?",
+      "options": ["Proton", "Electron", "Poseidon", "Neutron"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "Which natural disaster is measured with a Richter scale?",
+      "options": ["Earthquakes", "Avalanches", "Tsunami", "Droughts"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "Which planet has the most gravity?",
+      "options": ["Uranus", "Jupiter", "Saturn", "Neptune"],
+      "correctAnswer": 1
+    }
+  ]
+}
