@@ -2,6 +2,7 @@ import * as readline from "readline";
 import {ICli, IQuestion} from "../typings/interfaces/quiz.interfaces";
 import * as fs from "fs";
 import {Timer} from "./timer.component";
+import {expirationTime, isTimeExpired} from "../utils/helpers";
 
 
 // const data = fs.readFileSync("/home/vlqa/Desktop/git_repositories/final_project_automation_course/source/questions_collection/question_collection.json", "utf-8");
@@ -18,6 +19,31 @@ export class Cli implements ICli {
             output: process.stdout
         });
         this.timer = new Timer(10);
+    }
+
+    async askPlayerName(): Promise<string | void> {
+        return new Promise((resolve) => {
+            this.rl.question('Enter your name: ', (name: string) => {
+                if(name != null && !isTimeExpired(expirationTime)) {
+                    resolve(name);
+                } else {
+                    console.log('Game over ///////')
+                }
+            });
+        });
+    }
+
+    async displayMenu(): Promise<number> {
+        return new Promise((resolve) => {
+            console.log("Menu:");
+            console.log("1. Play");
+            console.log("2. Edit questions");
+            console.log("3. Exit");
+            this.rl.question("Enter your choice: ", (choice: string) => {
+                const selectedOption = parseInt(choice, 10);
+                resolve(selectedOption);
+            });
+        });
     }
 
     displayQuestion(question: IQuestion): void {

@@ -11,7 +11,7 @@ export class Player implements IPlayer {
         this.progress = 0;
     }
 
-    gertCurrentProgress(): number {
+    getCurrentProgress(): number {
         return this.progress;
     }
 
@@ -27,11 +27,8 @@ export class Player implements IPlayer {
         this.score += points;
     }
 
-    resetCurrentScore(): void {
+    resetScoreAndProgress(): void {
         this.score = 0;
-    }
-
-    resetProgress(): void {
         this.progress = 0;
     }
 }

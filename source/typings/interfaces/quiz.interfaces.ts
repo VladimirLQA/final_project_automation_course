@@ -15,8 +15,8 @@ export interface IQuestionEditor {
 
 export interface IQuestionCollection {
     getRandomQuestion(): IQuestion;
-    getAllQuestions(): IQuestion[];
-    getQuestionsByDifficulty(diffLvl: DifficultyLevel):  IQuestion[];
+    getAllQuestions(): Record<string, IQuestion[]>;
+    getQuestionsByDifficulty(diffLvl: DifficultyLevel):  any;
     // todo getQuestionsByTopic: (topic: string): Question[];
 }
 
@@ -30,16 +30,16 @@ export interface ITimerClass {
 export interface IPlayer {
     incrementScore(points: number): void;
     getCurrentScore(): number;
-    resetCurrentScore(): void;
     incrementProgress(): void;
-    gertCurrentProgress(): number;
-    resetProgress(): void;
+    getCurrentProgress(): number;
+    resetScoreAndProgress(): void;
 }
 
 export interface ICli {
     displayQuestion(question: IQuestion): void;
     getPlayerAnswer(): Promise<number>;
     displayResult(isCorrect: boolean, correctAnswer: string | number): void;
+    askPlayerName(): void;
     close(): void;
 }
 
