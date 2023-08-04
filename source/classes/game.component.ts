@@ -5,7 +5,7 @@ import {Timer} from "./timer.component";
 import {Player} from "./player.component";
 
 import * as fs from "fs";
-import { isCorrectAnswer } from "../utils/helpers";
+import {basicQuestionExpired, isCorrectAnswer} from "../utils/helpers";
 
 // const data = fs.readFileSync("/home/vlqa/Desktop/git_repositories/final_project_automation_course/source/questions_collection/question_collection.json", "utf-8");
 // const parsedData = JSON.parse(data);
@@ -29,12 +29,17 @@ export class Game implements IGame {
         const playerName = await this.cli.askPlayerName();
         console.log(`Welcome, ${playerName}!. Make your choice!`);
 
-        while(true) {
+        while (true) {
             try {
                 const menuChoice = await this.cli.displayMenu();
                 switch (menuChoice) {
                     case 1:
-                        await this.playGame();
+                        try {
+                            await this.cli.displayAvailableTopics(basicQuestionExpired);
+                        } catch (error: any) {
+                            console.log("Error: " + error.message);
+                            this.cli.close();
+                        }
                         return;
                     case 2:
                         await this.editQuestions();
@@ -52,30 +57,30 @@ export class Game implements IGame {
         }
     }
 
-    async playGame(): Promise<void> {
-        const questions = this.questionCollection.getAllQuestions();
-
-        for (const question of questions) {
-            this.cli.displayQuestion(question);
-
-            try {
-                this.timer.start();
-                const playerAnswer = await this.cli.getPlayerAnswer();
-                if (this.timer.isExpired()) {
-                    this.timer.stop();
-                    this.handleAnswer(null, question);
-                } else {
-                    this.handleAnswer(playerAnswer, question);
-                }
-            } catch (error: any) {
-                this.timer.stop();
-                console.log("Something went wrong......................");
-                console.log("Error: " + error.message);
-            }
-        }
-
-        this.finishGame();
-    }
+    // async playGame(): Promise<void> {
+    //     const questions = this.questionCollection.getAllQuestions();
+    //
+    //     for (const question of questions) {
+    //         this.cli.displayQuestion(question);
+    //
+    //         try {
+    //             this.timer.start();
+    //             const playerAnswer = await this.cli.getPlayerAnswer();
+    //             if (this.timer.isExpired()) {
+    //                 this.timer.stop();
+    //                 this.handleAnswer(null, question);
+    //             } else {
+    //                 this.handleAnswer(playerAnswer, question);
+    //             }
+    //         } catch (error: any) {
+    //             this.timer.stop();
+    //             console.log("Something went wrong......................");
+    //             console.log("Error: " + error.message);
+    //         }
+    //     }
+    //
+    //     this.finishGame();
+    // }
 
     editQuestions(): void {
 
@@ -85,7 +90,7 @@ export class Game implements IGame {
         if (playerAnswer !== null && question) {
             const isAnswerCorrect = isCorrectAnswer(playerAnswer, question.correctAnswer);
             this.cli.displayResult(isAnswerCorrect, question.correctAnswer + 1);
-            if(isAnswerCorrect) {
+            if (isAnswerCorrect) {
                 this.player.incrementScore(10);
                 this.player.incrementProgress();
             }

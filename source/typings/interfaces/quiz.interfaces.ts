@@ -37,7 +37,7 @@ export interface IPlayer {
 
 export interface ICli {
     displayQuestion(question: IQuestion): void;
-    getPlayerAnswer(): Promise<number>;
+    getPlayerAnswer(timeoutMs: number): Promise<number | Error>;
     displayResult(isCorrect: boolean, correctAnswer: string | number): void;
     askPlayerName(): void;
     close(): void;
