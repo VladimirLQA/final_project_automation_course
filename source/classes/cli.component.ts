@@ -27,7 +27,8 @@ export class Cli implements ICli {
                 if(name != null && !isTimeExpired(expirationTime)) {
                     resolve(name);
                 } else {
-                    console.log('Game over ///////')
+                    console.log('Game over ///////');
+                    this.rl.close();
                 }
             });
         });
