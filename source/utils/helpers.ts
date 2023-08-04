@@ -1,12 +1,13 @@
 export function isCorrectAnswer(answer: number | string, correctAnswer: number): boolean {
     return answer === correctAnswer + 1;
 }
-export function isTimeExpired(expirationTime: Date): boolean {
-    const currentTime = new Date();
-    return currentTime >= expirationTime;
-}
+// export function isTimeExpired(expirationTime: number): boolean {
+//     const currentTime = new Date();
+//     return currentTime >= expirationTime;
+// }
 
-export const expirationTime = new Date(Date.now() + 15000);
+export const basicQuestionExpired: number = 30000;
+export const quizQuestionExpired = new Date(Date.now() + 10000);
 
 export function getRandomTopic() {
     const topics = ["cars", "technology", "movies", "science"];
