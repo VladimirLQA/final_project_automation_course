@@ -7,6 +7,7 @@ export function isTimeExpired(expirationTime: Date): boolean {
 }
 
 export const expirationTime = new Date(Date.now() + 15000);
+// export const expirationTime = new Date(Date.now() + 15000);
 
 export function getRandomTopic() {
     const topics = ["cars", "technology", "movies", "science"];
