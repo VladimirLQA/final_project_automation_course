@@ -15,7 +15,7 @@ export interface IQuestionEditor {
 
 export interface IQuestionCollection {
     getRandomQuestion(): IQuestion;
-    getAllQuestions(): Record<string, IQuestion[]>;
+    getAllQuestions(): Promise<Record<string, IQuestion[]>>;
     getQuestionsByDifficulty(diffLvl: DifficultyLevel):  any;
     // todo getQuestionsByTopic: (topic: string): Question[];
 }

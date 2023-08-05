@@ -21,8 +21,8 @@ export class QuestionCollection implements IQuestionCollection {
 
     }
 
-    getAllQuestions(): Record<string, IQuestion[]> {
-        return this.questions;
+    async getAllQuestions(): Promise<Record<string, IQuestion[]>> {
+        return new Promise((resolve, _) => resolve(this.questions))
     }
 
     getQuestionsByDifficulty(diffLvl: DifficultyLevel): any {

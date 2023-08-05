@@ -6,8 +6,8 @@ export function isCorrectAnswer(answer: number | string, correctAnswer: number):
 //     return currentTime >= expirationTime;
 // }
 
-export const basicQuestionExpired: number = 20000;
-export const quizQuestionExpired = new Date(Date.now() + 10000);
+export const menuQuestionExpired: number = 20000;
+export const quizQuestionExpired = 10000;
 
 export function getRandomTopic() {
     const topics = ["cars", "technology", "movies", "science"];
@@ -15,9 +15,7 @@ export function getRandomTopic() {
 }
 
 
-
-
-
+console.log()
 
 
 
