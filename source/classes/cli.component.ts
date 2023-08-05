@@ -2,7 +2,7 @@ import * as readline from "readline";
 import {ICli, IQuestion} from "../typings/interfaces/quiz.interfaces";
 import * as fs from "fs";
 import {Timer} from "./timer.component";
-import {basicQuestionExpired} from "../utils/helpers";
+import {menuQuestionExpired} from "../utils/helpers";
 
 
 // const data = fs.readFileSync("/home/vlqa/Desktop/git_repositories/final_project_automation_course/source/questions_collection/question_collection.json", "utf-8");
@@ -22,7 +22,7 @@ export class Cli implements ICli {
     }
 
     async askPlayerName(): Promise<string | void> {
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
             this.rl.question('Enter your name: ', (name: string) => {
                 if(name != null) {
                     resolve(name);
@@ -47,8 +47,8 @@ export class Cli implements ICli {
         });
     }
 
-    async displayAvailableTopics(timeoutMs: number): Promise<number | unknown> {
-        const playerAnswerPromise =  new Promise((resolve) => {
+    async displayAvailableTopics(timeoutMs: number): Promise<number> {
+        const playerAnswerPromise =  new Promise<number>((resolve) => {
             console.log("Choose topic to play");
             console.log("1. Movie");
             console.log("2. Cars");
@@ -86,7 +86,7 @@ export class Cli implements ICli {
     //     });
     // }
 
-    async getPlayerAnswer(timeoutMs: number): Promise<number | Error>  {
+    async getPlayerAnswer(timeoutMs: number): Promise<number>  {
         const playerAnswerPromise = new Promise<number>((resolve) => {
             this.rl.question("Your answer (enter the number): ", (answer: string) => {
                 resolve(parseInt(answer.trim(), 10));
