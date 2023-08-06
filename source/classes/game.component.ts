@@ -5,7 +5,7 @@ import {Timer} from "./timer.component";
 import {Player} from "./player.component";
 
 import * as fs from "fs";
-import { isCorrectAnswer, menuQuestionExpired, quizQuestionExpired} from "../utils/helpers";
+import {askPlayerNameAttempts, isCorrectAnswer, menuQuestionExpired, quizQuestionExpired} from "../utils/helpers";
 
 // const data = fs.readFileSync("/home/vlqa/Desktop/git_repositories/final_project_automation_course/source/questions_collection/question_collection.json", "utf-8");
 // const parsedData = JSON.parse(data);
@@ -26,8 +26,14 @@ export class Game implements IGame {
     async startGame(): Promise<void> {
         console.log("Welcome to quiz game.............................\n");
 
-        const playerName = await this.cli.askPlayerName();
-        console.log(`Welcome, ${playerName}!. Make your choice!`);
+        try {
+            const playerName = await this.cli.askPlayerName(askPlayerNameAttempts);
+            console.log(`Welcome, ${playerName}!. Make your choice!`);
+        } catch (error: any) {
+            console.error(error.message);
+            this.cli.close();
+            return;
+        }
 
         while (true) {
             try {

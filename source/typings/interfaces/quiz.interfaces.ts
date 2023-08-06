@@ -39,7 +39,7 @@ export interface ICli {
     displayQuestion(question: IQuestion): void;
     getPlayerAnswer(timeoutMs: number): Promise<number | Error>;
     displayResult(isCorrect: boolean, correctAnswer: string | number): void;
-    askPlayerName(): void;
+    askPlayerName(attempts: number): void;
     close(): void;
 }
 

@@ -21,14 +21,19 @@ export class Cli implements ICli {
         this.timer = new Timer(10);
     }
 
-    async askPlayerName(): Promise<string | void> {
-        return new Promise((resolve, reject) => {
+    async askPlayerName(attempts: number): Promise<string> {
+        return new Promise<string>((resolve, reject) => {
+            if(attempts <= 0 ) {
+                reject(new Error("No name provided within the specified attempts"));
+                return;
+            }
+
             this.rl.question('Enter your name: ', (name: string) => {
-                if(name != null) {
-                    resolve(name);
+                if(name.trim().length > 0) {
+                    resolve(name.trim());
                 } else {
-                    console.log('Game over ///////');
-                    this.rl.close();
+                    console.log(`Attempts left: ${attempts - 1}`);
+                    this.askPlayerName(attempts - 1).then(resolve).catch(reject);
                 }
             });
         });
