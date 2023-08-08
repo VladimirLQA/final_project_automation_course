@@ -23,13 +23,13 @@ export class Cli implements ICli {
 
     async askPlayerName(attempts: number): Promise<string> {
         return new Promise<string>((resolve, reject) => {
-            if(attempts <= 0 ) {
+            if (attempts <= 0) {
                 reject(new Error("No name provided within the specified attempts"));
                 return;
             }
 
             this.rl.question('Enter your name: ', (name: string) => {
-                if(name.trim().length > 0) {
+                if (name.trim().length > 0) {
                     resolve(name.trim());
                 } else {
                     console.log(`Attempts left: ${attempts - 1}`);
@@ -52,15 +52,27 @@ export class Cli implements ICli {
         });
     }
 
-    async displayAvailableTopics(timeoutMs: number): Promise<number> {
-        const playerAnswerPromise =  new Promise<number>((resolve) => {
+    async displayAvailableTopics(timeoutMs: number, attempts: number): Promise<number> {
+        const playerAnswerPromise = new Promise<number>((resolve, reject) => {
+            if (attempts <= 0) {
+                reject(new Error("No correct value provided within the specified attempts"));
+                return;
+            }
             console.log("Choose topic to play");
             console.log("1. Movie");
             console.log("2. Cars");
             console.log("3. Technology");
             console.log("4. Science");
             console.log("5. Random");
-            this.rl.question("Enter your choice: " + "\n", (choice: string) =>  resolve(parseInt(choice, 10)));
+            this.rl.question("Enter your choice: " + "\n", (choice: string) => {
+
+                if(parseInt(choice, 10) <= 5 && parseInt(choice, 10) >= 1) {
+                    resolve(parseInt(choice, 10))
+                } else {
+                    console.log(`Enter the value from 1 to 5`);
+                    this.displayAvailableTopics(menuQuestionExpired, attempts - 1).then(resolve).catch(reject);
+                }
+            });
         });
 
         const timeoutPromise = new Promise<number>((_, reject) => {
@@ -91,7 +103,7 @@ export class Cli implements ICli {
     //     });
     // }
 
-    async getPlayerAnswer(timeoutMs: number): Promise<number>  {
+    async getPlayerAnswer(timeoutMs: number): Promise<number> {
         const playerAnswerPromise = new Promise<number>((resolve) => {
             this.rl.question("Your answer (enter the number): ", (answer: string) => {
                 resolve(parseInt(answer.trim(), 10));

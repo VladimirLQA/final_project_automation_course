@@ -9,7 +9,7 @@ export function isTimeExpired(expirationTime: number): boolean {
 }
 
 export const askPlayerNameAttempts: number = 3;
-
+export const askPlayerTopic: number = 3;
 
 export const expirationTime: number = Date.now() + 10000;
 export const menuQuestionExpired: number = 20000;

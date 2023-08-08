@@ -5,7 +5,13 @@ import {Timer} from "./timer.component";
 import {Player} from "./player.component";
 
 import * as fs from "fs";
-import {askPlayerNameAttempts, isCorrectAnswer, menuQuestionExpired, quizQuestionExpired} from "../utils/helpers";
+import {
+    askPlayerNameAttempts,
+    askPlayerTopic,
+    isCorrectAnswer,
+    menuQuestionExpired,
+    quizQuestionExpired
+} from "../utils/helpers";
 
 // const data = fs.readFileSync("/home/vlqa/Desktop/git_repositories/final_project_automation_course/source/questions_collection/question_collection.json", "utf-8");
 // const parsedData = JSON.parse(data);
@@ -41,7 +47,7 @@ export class Game implements IGame {
                 switch (menuChoice) {
                     case 1:
                         try {
-                            const topic = await this.cli.displayAvailableTopics(menuQuestionExpired);
+                            const topic = await this.cli.displayAvailableTopics(menuQuestionExpired, askPlayerTopic);
                             await this.playGame(topic);
                         } catch (error: any) {
                             console.log("Error: " + error.message);
@@ -65,8 +71,14 @@ export class Game implements IGame {
     }
 
     async playGame(topic: number): Promise<void> {
+        let clearTopic = topic - 1;
+        let gameTopic;
         const allQuestions = await this.questionCollection.getAllQuestions();
-        const gameTopic = Object.keys(allQuestions)[topic - 1];
+        if (clearTopic == 4) {
+            gameTopic = this.questionCollection.getRandomTopic();
+        } else {
+            gameTopic = Object.keys(allQuestions)[clearTopic];
+        }
 
         for (let i = 0; i < allQuestions[gameTopic].length; i++) {
             const question = allQuestions[gameTopic][i];
