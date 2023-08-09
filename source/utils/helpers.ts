@@ -24,11 +24,11 @@ export function getRandomTopic(): GAMETOPICS {
 }
 
 export const gameTopics: GameTopicsType<GAMETOPICS> = {
-    0: "movie",
-    1: "cars",
-    2: "technology",
-    3: "science",
-    4: getRandomTopic(),
+    1: "movie",
+    2: "cars",
+    3: "technology",
+    4: "science",
+    5: getRandomTopic(),
 };
 
 

@@ -10,7 +10,8 @@ import {
     askPlayerTopic,
     isCorrectAnswer,
     menuQuestionExpired,
-    quizQuestionExpired
+    quizQuestionExpired,
+    gameTopics
 } from "../utils/helpers";
 
 // const data = fs.readFileSync("/home/vlqa/Desktop/git_repositories/final_project_automation_course/source/questions_collection/question_collection.json", "utf-8");
@@ -71,13 +72,13 @@ export class Game implements IGame {
     }
 
     async playGame(topic: number): Promise<void> {
-        let clearTopic = topic - 1;
-        let gameTopic;
         const allQuestions = await this.questionCollection.getAllQuestions();
-        if (clearTopic == 4) {
-            gameTopic = this.questionCollection.getRandomTopic();
-        } else {
-            gameTopic = Object.keys(allQuestions)[clearTopic];
+        let gameTopic: string = "";
+
+        for (const key in gameTopics) {
+            if (key === topic.toString()) {
+                gameTopic = gameTopics[key] as string;
+            }
         }
 
         for (let i = 0; i < allQuestions[gameTopic].length; i++) {
