@@ -14,8 +14,8 @@ export interface IQuestionEditor {
 }
 
 export interface IQuestionCollection {
-    getRandomQuestion(): IQuestion;
-    getAllQuestions(): Record<string, IQuestion[]>;
+    getRandomTopic(): string;
+    getAllQuestions(): Promise<Record<string, IQuestion[]>>;
     getQuestionsByDifficulty(diffLvl: DifficultyLevel):  any;
     // todo getQuestionsByTopic: (topic: string): Question[];
 }
@@ -39,7 +39,7 @@ export interface ICli {
     displayQuestion(question: IQuestion): void;
     getPlayerAnswer(timeoutMs: number): Promise<number | Error>;
     displayResult(isCorrect: boolean, correctAnswer: string | number): void;
-    askPlayerName(): void;
+    askPlayerName(attempts: number): void;
     close(): void;
 }
 

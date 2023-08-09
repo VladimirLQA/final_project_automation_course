@@ -14,15 +14,16 @@ export class QuestionCollection implements IQuestionCollection {
     }
 
 
-    getRandomQuestion(): IQuestion {
-        const randomTopic: string = getRandomTopic();
-        const questionsTopic = this.questions[randomTopic];
-        return questionsTopic[Math.floor(Math.random() * questionsTopic.length)];
+    getRandomTopic(): string {
+        return getRandomTopic();
+        // const randomTopic: string = getRandomTopic();
+        // return this.questions[randomTopic];
+         // questionsTopic[Math.floor(Math.random() * questionsTopic.length)];
 
     }
 
-    getAllQuestions(): Record<string, IQuestion[]> {
-        return this.questions;
+    async getAllQuestions(): Promise<Record<string, IQuestion[]>> {
+        return new Promise((resolve, _) => resolve(this.questions))
     }
 
     getQuestionsByDifficulty(diffLvl: DifficultyLevel): any {

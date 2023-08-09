@@ -5,7 +5,14 @@ import {Timer} from "./timer.component";
 import {Player} from "./player.component";
 
 import * as fs from "fs";
-import {basicQuestionExpired, isCorrectAnswer} from "../utils/helpers";
+import {
+    askPlayerNameAttempts,
+    askPlayerTopic,
+    isCorrectAnswer,
+    menuQuestionExpired,
+    quizQuestionExpired,
+    gameTopics
+} from "../utils/helpers";
 
 // const data = fs.readFileSync("/home/vlqa/Desktop/git_repositories/final_project_automation_course/source/questions_collection/question_collection.json", "utf-8");
 // const parsedData = JSON.parse(data);
@@ -26,8 +33,14 @@ export class Game implements IGame {
     async startGame(): Promise<void> {
         console.log("Welcome to quiz game.............................\n");
 
-        const playerName = await this.cli.askPlayerName();
-        console.log(`Welcome, ${playerName}!. Make your choice!`);
+        try {
+            const playerName = await this.cli.askPlayerName(askPlayerNameAttempts);
+            console.log(`Welcome, ${playerName}!. Make your choice!`);
+        } catch (error: any) {
+            console.error(error.message);
+            this.cli.close();
+            return;
+        }
 
         while (true) {
             try {
@@ -35,7 +48,8 @@ export class Game implements IGame {
                 switch (menuChoice) {
                     case 1:
                         try {
-                            await this.cli.displayAvailableTopics(basicQuestionExpired);
+                            const topic = await this.cli.displayAvailableTopics(menuQuestionExpired, askPlayerTopic);
+                            await this.playGame(topic);
                         } catch (error: any) {
                             console.log("Error: " + error.message);
                             this.cli.close();
@@ -57,30 +71,37 @@ export class Game implements IGame {
         }
     }
 
-    // async playGame(): Promise<void> {
-    //     const questions = this.questionCollection.getAllQuestions();
-    //
-    //     for (const question of questions) {
-    //         this.cli.displayQuestion(question);
-    //
-    //         try {
-    //             this.timer.start();
-    //             const playerAnswer = await this.cli.getPlayerAnswer();
-    //             if (this.timer.isExpired()) {
-    //                 this.timer.stop();
-    //                 this.handleAnswer(null, question);
-    //             } else {
-    //                 this.handleAnswer(playerAnswer, question);
-    //             }
-    //         } catch (error: any) {
-    //             this.timer.stop();
-    //             console.log("Something went wrong......................");
-    //             console.log("Error: " + error.message);
-    //         }
-    //     }
-    //
-    //     this.finishGame();
-    // }
+    async playGame(topic: number): Promise<void> {
+        const allQuestions = await this.questionCollection.getAllQuestions();
+        let gameTopic: string = "";
+
+        for (const key in gameTopics) {
+            if (key === topic.toString()) {
+                gameTopic = gameTopics[key] as string;
+            }
+        }
+
+        for (let i = 0; i < allQuestions[gameTopic].length; i++) {
+            const question = allQuestions[gameTopic][i];
+            this.cli.displayQuestion(question);
+
+            try {
+                this.timer.start();
+                const playerAnswer = await this.cli.getPlayerAnswer(quizQuestionExpired);
+                if (this.timer.isExpired()) {
+                    this.timer.stop();
+                    this.handleAnswer(null, question);
+                } else {
+                    this.handleAnswer(playerAnswer, question);
+                }
+            } catch (error: any) {
+                this.timer.stop();
+                console.log("Error: " + error.message);
+            }
+        }
+
+        this.finishGame();
+    }
 
     editQuestions(): void {
 
@@ -102,7 +123,7 @@ export class Game implements IGame {
     finishGame(): void {
         console.log('Quiz is over. Your final results:');
         console.log('> Score: ' + this.player.getCurrentScore());
-        console.log('> Progress: ' + this.player.getCurrentProgress() + '/' + this.questionCollection.getAllQuestions().length);
+        console.log('> Progress: ' + this.player.getCurrentProgress() + '/' + +5);
         this.cli.close();
     }
 }
