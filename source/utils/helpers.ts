@@ -1,3 +1,6 @@
+import {GAMETOPICS} from "../typings/enums/quiz.enums";
+import {GameTopicsType} from "../typings/types/quiz.types";
+
 export function isCorrectAnswer(answer: number | string, correctAnswer: number): boolean {
     return answer === correctAnswer + 1;
 }
@@ -15,14 +18,18 @@ export const expirationTime: number = Date.now() + 10000;
 export const menuQuestionExpired: number = 20000;
 export const quizQuestionExpired: number = 10000;
 
-export function getRandomTopic() {
-    const topics = ["cars", "technology", "movies", "science"];
+export function getRandomTopic(): GAMETOPICS {
+    const topics = [GAMETOPICS.MOVIE, GAMETOPICS.CARS, GAMETOPICS.TECHNOLOGY, GAMETOPICS.SCIENCE];
     return topics[Math.floor(Math.random() * topics.length)];
 }
 
-
-console.log()
-
+export const gameTopics: GameTopicsType<GAMETOPICS> = {
+    0: "movie",
+    1: "cars",
+    2: "technology",
+    3: "science",
+    4: getRandomTopic(),
+};
 
 
 
