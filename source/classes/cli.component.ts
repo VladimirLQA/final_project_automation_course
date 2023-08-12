@@ -39,21 +39,20 @@ export class Cli implements ICli {
         });
     }
 
-    async displayMenu(): Promise<number> {
+    async displayMenu(): Promise<string> {
         return new Promise((resolve) => {
             console.log("Menu:");
             console.log("1. Play");
             console.log("2. Edit questions");
             console.log("3. Exit");
             this.rl.question("Enter your choice: ", (choice: string) => {
-                const selectedOption = parseInt(choice, 10);
-                resolve(selectedOption);
+                resolve(choice);
             });
         });
     }
 
-    async displayAvailableTopics(timeoutMs: number, attempts: number): Promise<number> {
-        const playerAnswerPromise = new Promise<number>((resolve, reject) => {
+    async displayAvailableTopics(timeoutMs: number, attempts: number): Promise<string> {
+        const playerAnswerPromise = new Promise<string>((resolve, reject) => {
             if (attempts <= 0) {
                 reject(new Error("No correct value provided within the specified attempts"));
                 return;
@@ -67,7 +66,7 @@ export class Cli implements ICli {
             this.rl.question("Enter your choice: " + "\n", (choice: string) => {
 
                 if(parseInt(choice, 10) <= 5 && parseInt(choice, 10) >= 1) {
-                    resolve(parseInt(choice, 10))
+                    resolve(choice);
                 } else {
                     console.log(`Enter the value from 1 to 5`);
                     this.displayAvailableTopics(menuQuestionExpired, attempts - 1).then(resolve).catch(reject);
@@ -75,7 +74,37 @@ export class Cli implements ICli {
             });
         });
 
-        const timeoutPromise = new Promise<number>((_, reject) => {
+        const timeoutPromise = new Promise<string>((_, reject) => {
+            setTimeout(() => {
+                reject(new Error("Timeout: Player didn't provide an answer in time."));
+            }, timeoutMs);
+        });
+
+        return Promise.race([playerAnswerPromise, timeoutPromise]);
+    }
+
+    async displayOptionsToEdit(timeoutMs: number, attempts: number): Promise<string> {
+        const playerAnswerPromise = new Promise<string>((resolve, reject) => {
+            if (attempts <= 0) {
+                reject(new Error("No correct value provided within the specified attempts"));
+                return;
+            }
+            console.log("Choose topic to play");
+            console.log("1. Add question");
+            console.log("2. Edit question");
+            console.log("3. Delete question");
+            this.rl.question("Enter your choice: " + "\n", (choice: string) => {
+
+                if(parseInt(choice, 10) <= 5 && parseInt(choice, 10) >= 1) {
+                    resolve(choice);
+                } else {
+                    console.log(`Enter the value from 1 to 5`);
+                    this.displayOptionsToEdit(menuQuestionExpired, attempts - 1).then(resolve).catch(reject);
+                }
+            });
+        });
+
+        const timeoutPromise = new Promise<string>((_, reject) => {
             setTimeout(() => {
                 reject(new Error("Timeout: Player didn't provide an answer in time."));
             }, timeoutMs);

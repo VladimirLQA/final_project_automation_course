@@ -1,4 +1,4 @@
-import {IQuestion, IGame, IGameResult} from "../typings/interfaces/quiz.interfaces";
+import {IQuestion, IGame, IGameResult, ICli} from "../typings/interfaces/quiz.interfaces";
 import {QuestionCollection} from "./question_collection.component";
 import {Cli} from "./cli.component";
 import {Timer} from "./timer.component";
@@ -11,8 +11,9 @@ import {
     isCorrectAnswer,
     menuQuestionExpired,
     quizQuestionExpired,
-    gameTopics
+    gameTopics, askPlayerOption
 } from "../utils/helpers";
+import {QuestionEditor} from "./question_editor.component";
 
 // const data = fs.readFileSync("/home/vlqa/Desktop/git_repositories/final_project_automation_course/source/questions_collection/question_collection.json", "utf-8");
 // const parsedData = JSON.parse(data);
@@ -22,12 +23,14 @@ export class Game implements IGame {
     private cli: Cli;
     private timer: Timer;
     private player: Player;
+    private editor: QuestionEditor;
 
     constructor(playerName: string, questionCollection: QuestionCollection) {
         this.questionCollection = questionCollection;
         this.cli = new Cli();
         this.timer = new Timer(5);
         this.player = new Player(playerName);
+        this.editor = new QuestionEditor()
     }
 
     async startGame(): Promise<void> {
@@ -56,7 +59,13 @@ export class Game implements IGame {
                         }
                         return;
                     case 2:
-                        await this.editQuestions();
+                        try {
+                            this.editor.setQuestions(await this.questionCollection.getAllQuestions());
+                            const option = await this.cli.displayOptionsToEdit(menuQuestionExpired, askPlayerOption);
+                            await this.editQuestions(option);
+                        } catch (error: any) {
+
+                        }
                         return;
                     case 3: // Exit option
                         console.log("Exiting the game.");
@@ -71,12 +80,12 @@ export class Game implements IGame {
         }
     }
 
-    async playGame(topic: number): Promise<void> {
+    async playGame(topic: string): Promise<void> {
         const allQuestions = await this.questionCollection.getAllQuestions();
         let gameTopic: string = "";
 
         for (const key in gameTopics) {
-            if (key === topic.toString()) {
+            if (key === topic) {
                 gameTopic = gameTopics[key] as string;
             }
         }
@@ -103,8 +112,10 @@ export class Game implements IGame {
         this.finishGame();
     }
 
-    editQuestions(): void {
-
+    async editQuestions(option: string): Promise<void> {
+        if(option == 1) {
+            this.editor.addQuestion()
+        }
     }
 
     handleAnswer(playerAnswer: number | null, question?: IQuestion): void {
