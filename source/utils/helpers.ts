@@ -5,11 +5,11 @@ export function isCorrectAnswer(answer: number | string, correctAnswer: number):
     return answer === correctAnswer + 1;
 }
 
+
 export function isTimeExpired(expirationTime: number): boolean {
     const currentTime = new Date();
     const expirationDate = new Date(expirationTime);
     return currentTime >= expirationDate;
-}
 
 export const askPlayerNameAttempts: number = 3;
 export const askPlayerTopic: number = 3;
