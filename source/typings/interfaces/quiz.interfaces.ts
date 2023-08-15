@@ -1,4 +1,5 @@
-import {DifficultyLevel} from "../enums/quiz.enums";
+import {DifficultyLevel, GAMETOPICS} from "../enums/quiz.enums";
+import {QuestionCollection} from "../types/quiz.types";
 
 export interface IQuestion {
     question: string;
@@ -8,14 +9,14 @@ export interface IQuestion {
 
 export interface IQuestionEditor {
     editQuestion(index: number, editedQuestion: IQuestion): void;
-    addQuestion(question: IQuestion): void;
+    addQuestion(topic: GAMETOPICS, question: IQuestion): void;
     deleteQuestionByIndex(index: number): void;
     // todo rewrite component to edit questions by topic provided
 }
 
 export interface IQuestionCollection {
     getRandomTopic(): string;
-    getAllQuestions(): Promise<Record<string, IQuestion[]>>;
+    getAllQuestions(): Promise<QuestionCollection>;
     getQuestionsByDifficulty(diffLvl: DifficultyLevel):  any;
     // todo getQuestionsByTopic: (topic: string): Question[];
 }

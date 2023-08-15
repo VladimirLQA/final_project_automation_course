@@ -1,4 +1,4 @@
-import {IQuestion, IGame, IGameResult} from "../typings/interfaces/quiz.interfaces";
+import {IQuestion, IGame, IGameResult, ICli} from "../typings/interfaces/quiz.interfaces";
 import {QuestionCollection} from "./question_collection.component";
 import {Cli} from "./cli.component";
 import {Timer} from "./timer.component";
@@ -7,12 +7,13 @@ import {Player} from "./player.component";
 import * as fs from "fs";
 import {
     askPlayerNameAttempts,
-    askPlayerTopic,
     isCorrectAnswer,
     menuQuestionExpired,
     quizQuestionExpired,
-    gameTopics
+    gameTopics, askPlayerOption, askPlayerTopicAttempts, returnTopic, temporaryQuestionToAdd
 } from "../utils/helpers";
+import {QuestionEditor} from "./question_editor.component";
+import {GameTopics} from "../typings/types/quiz.types";
 
 // const data = fs.readFileSync("/home/vlqa/Desktop/git_repositories/final_project_automation_course/source/questions_collection/question_collection.json", "utf-8");
 // const parsedData = JSON.parse(data);
@@ -22,12 +23,14 @@ export class Game implements IGame {
     private cli: Cli;
     private timer: Timer;
     private player: Player;
+    private editor: QuestionEditor;
 
     constructor(playerName: string, questionCollection: QuestionCollection) {
         this.questionCollection = questionCollection;
         this.cli = new Cli();
         this.timer = new Timer(5);
         this.player = new Player(playerName);
+        this.editor = new QuestionEditor()
     }
 
     async startGame(): Promise<void> {
@@ -46,19 +49,25 @@ export class Game implements IGame {
             try {
                 const menuChoice = await this.cli.displayMenu();
                 switch (menuChoice) {
-                    case 1:
+                    case "1":
                         try {
-                            const topic = await this.cli.displayAvailableTopics(menuQuestionExpired, askPlayerTopic);
+                            const topic = await this.cli.displayAvailableTopics(menuQuestionExpired, askPlayerTopicAttempts);
                             await this.playGame(topic);
                         } catch (error: any) {
                             console.log("Error: " + error.message);
                             this.cli.close();
                         }
                         return;
-                    case 2:
-                        await this.editQuestions();
+                    case "2":
+                        try {
+                            this.editor.setQuestions(await this.questionCollection.getAllQuestions());
+                            const option = await this.cli.displayOptionsToEdit(menuQuestionExpired, askPlayerOption);
+                            await this.editQuestions(option);
+                        } catch (error: any) {
+                            console.log("Error: " + error.message);
+                        }
                         return;
-                    case 3: // Exit option
+                    case "3": // Exit option
                         console.log("Exiting the game.");
                         this.cli.close();
                         return;
@@ -71,15 +80,9 @@ export class Game implements IGame {
         }
     }
 
-    async playGame(topic: number): Promise<void> {
+    async playGame(topic: string): Promise<void> {
         const allQuestions = await this.questionCollection.getAllQuestions();
-        let gameTopic: string = "";
-
-        for (const key in gameTopics) {
-            if (key === topic.toString()) {
-                gameTopic = gameTopics[key] as string;
-            }
-        }
+        const gameTopic: GameTopics = returnTopic(topic);
 
         for (let i = 0; i < allQuestions[gameTopic].length; i++) {
             const question = allQuestions[gameTopic][i];
@@ -103,8 +106,12 @@ export class Game implements IGame {
         this.finishGame();
     }
 
-    editQuestions(): void {
-
+    async editQuestions(option: string | number): Promise<void> {
+        if (option == 1) {
+            const topicToEdit = await this.cli.displayAvailableTopicsToAddQuestions(menuQuestionExpired, askPlayerTopicAttempts);
+            const gameTopic: GameTopics = returnTopic(topicToEdit);
+            this.editor.addQuestion(gameTopic, temporaryQuestionToAdd)
+        }
     }
 
     handleAnswer(playerAnswer: number | null, question?: IQuestion): void {
