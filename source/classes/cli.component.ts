@@ -113,6 +113,38 @@ export class Cli implements ICli {
         return Promise.race([playerAnswerPromise, timeoutPromise]);
     }
 
+    async displayAvailableTopicsToAddQuestions(timeoutMs: number, attempts: number): Promise<string> {
+        const playerAnswerPromise = new Promise<string>((resolve, reject) => {
+            if (attempts <= 0) {
+                reject(new Error("No correct value provided within the specified attempts"));
+                return;
+            }
+            console.log("Choose topic to add ");
+            console.log("1. Movie");
+            console.log("2. Cars");
+            console.log("3. Technology");
+            console.log("4. Science");
+            this.rl.question("Enter your choice: ", (choice: string) => {
+
+                if(parseInt(choice, 10) <= 5 && parseInt(choice, 10) >= 1) {
+                    resolve(choice);
+                } else {
+                    console.log(`Enter the value from 1 to 5`);
+                    this.displayOptionsToEdit(menuQuestionExpired, attempts - 1).then(resolve).catch(reject);
+                }
+            });
+        });
+
+        const timeoutPromise = new Promise<string>((_, reject) => {
+            setTimeout(() => {
+                reject(new Error("Timeout: Player didn't provide an answer in time."));
+            }, timeoutMs);
+        });
+
+        return Promise.race([playerAnswerPromise, timeoutPromise]);
+    }
+
+
     displayQuestion(question: IQuestion): void {
         console.log(question.question);
         question.options.forEach((option: string, index: number) => console.log(`${index + 1}: ${option}`));

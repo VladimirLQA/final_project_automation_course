@@ -1,5 +1,5 @@
 import {IQuestion, IQuestionEditor} from "../typings/interfaces/quiz.interfaces";
-import {QuestionCollection} from "../typings/types/quiz.types";
+import {GameTopics, QuestionCollection} from "../typings/types/quiz.types";
 import {GAMETOPICS} from "../typings/enums/quiz.enums";
 
 // todo rewrite component to edit questions by topic provided
@@ -11,7 +11,7 @@ export class QuestionEditor implements IQuestionEditor {
         this.questions = startQuestions;
     }
 
-    addQuestion(topic: GAMETOPICS, question: IQuestion): void {
+    addQuestion(topic: GameTopics, question: IQuestion): void {
 
     }
 
@@ -31,3 +31,4 @@ export class QuestionEditor implements IQuestionEditor {
         // }
     }
 }
+
