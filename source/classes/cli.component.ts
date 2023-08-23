@@ -1,8 +1,7 @@
 import * as readline from "readline";
 import {ICli, IQuestion} from "../typings/interfaces/quiz.interfaces";
-import * as fs from "fs";
 import {Timer} from "./timer.component";
-import {menuQuestionExpired} from "../utils/helpers";
+import {displayMainMenuOptions, displayTopicOptions, menuQuestionExpired} from "../utils/helpers";
 
 
 // const data = fs.readFileSync("/home/vlqa/Desktop/git_repositories/final_project_automation_course/source/questions_collection/question_collection.json", "utf-8");
@@ -41,10 +40,7 @@ export class Cli implements ICli {
 
     async displayMenu(): Promise<string> {
         return new Promise((resolve) => {
-            console.log("Menu:");
-            console.log("1. Play");
-            console.log("2. Edit questions");
-            console.log("3. Exit");
+            displayMainMenuOptions();
             this.rl.question("Enter your choice: ", (choice: string) => {
                 resolve(choice);
             });
@@ -57,18 +53,14 @@ export class Cli implements ICli {
                 reject(new Error("No correct value provided within the specified attempts"));
                 return;
             }
-            console.log("Choose topic to play");
-            console.log("1. Movie");
-            console.log("2. Cars");
-            console.log("3. Technology");
-            console.log("4. Science");
-            console.log("5. Random");
-            this.rl.question("Enter your choice: " + "\n", (choice: string) => {
 
-                if(parseInt(choice, 10) <= 5 && parseInt(choice, 10) >= 1) {
+            displayTopicOptions();
+
+            this.rl.question("Enter your choice: ", (choice: string) => {
+                if (parseInt(choice, 10) <= 5 && parseInt(choice, 10) >= 1) {
                     resolve(choice);
                 } else {
-                    console.log(`Enter the value from 1 to 5`);
+                    console.log(`Enter valid value. Attempts left: ${attempts - 1}`);
                     this.displayAvailableTopics(menuQuestionExpired, attempts - 1).then(resolve).catch(reject);
                 }
             });
@@ -95,7 +87,7 @@ export class Cli implements ICli {
             console.log("3. Delete question");
             this.rl.question("Enter your choice: " + "\n", (choice: string) => {
 
-                if(parseInt(choice, 10) <= 5 && parseInt(choice, 10) >= 1) {
+                if (parseInt(choice, 10) <= 5 && parseInt(choice, 10) >= 1) {
                     resolve(choice);
                 } else {
                     console.log(`Enter the value from 1 to 5`);
@@ -126,7 +118,7 @@ export class Cli implements ICli {
             console.log("4. Science");
             this.rl.question("Enter your choice: ", (choice: string) => {
 
-                if(parseInt(choice, 10) <= 5 && parseInt(choice, 10) >= 1) {
+                if (parseInt(choice, 10) <= 5 && parseInt(choice, 10) >= 1) {
                     resolve(choice);
                 } else {
                     console.log(`Enter the value from 1 to 5`);
@@ -144,25 +136,37 @@ export class Cli implements ICli {
         return Promise.race([playerAnswerPromise, timeoutPromise]);
     }
 
+    // async enterQuestionToAdd(attempts: number): Promise<IQuestion> {
+    //     return new Promise<IQuestion>((resolve, reject) => {
+    //         if (attempts <= 0) {
+    //             reject(new Error("No name provided within the specified attempts"));
+    //             return;
+    //         }
+    //
+    //         this.rl.question('Enter your question: ', (newQuestion: string) => {
+    //             if (newQuestion) {
+    //                 resolve(newQuestion as IQuestion);
+    //             } else {
+    //                 console.log(`Attempts left: ${attempts - 1}`);
+    //                 this.enterQuestionToAdd(attempts - 1).then(resolve).catch(reject);
+    //             }
+    //         });
+    //     });
+    // }
+
 
     displayQuestion(question: IQuestion): void {
-        console.log(question.question);
+        console.log(`${question.question}`);
         question.options.forEach((option: string, index: number) => console.log(`${index + 1}: ${option}`));
     }
 
     displayResult(isCorrect: boolean, correctAnswer: string | number): void {
         if (isCorrect) {
-            console.log("Your answer is correct :)");
+            console.log("Your answer is correct :)" + "\n");
         } else {
-            console.log("Incorrect answer. The correct answer is " + correctAnswer);
+            console.log("Incorrect answer. The correct answer is " + correctAnswer + "\n");
         }
     }
-
-    // async getPlayerAnswer(): Promise<number> {
-    //     return new Promise((resolve) => {
-    //         this.rl.question("Your answer (enter the number): ", (answer: string) => resolve(parseInt(answer.trim(), 10)));
-    //     });
-    // }
 
     async getPlayerAnswer(timeoutMs: number): Promise<number> {
         const playerAnswerPromise = new Promise<number>((resolve) => {
@@ -184,14 +188,3 @@ export class Cli implements ICli {
         this.rl.close();
     }
 }
-
-// const question: IQuestion = parsedData[0];
-//
-// const cli = new Cli();
-//
-// cli.displayQuestion(question);
-// cli.getPlayerAnswer().then((playerAnswer) => {
-//     const isCorrect = playerAnswer === question.correctAnswer + 1;
-//     cli.displayResult(isCorrect, question.correctAnswer + 1);
-//     cli.close();
-// });
