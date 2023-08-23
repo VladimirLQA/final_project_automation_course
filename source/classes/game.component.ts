@@ -10,7 +10,7 @@ import {
     isCorrectAnswer,
     menuQuestionExpired,
     quizQuestionExpired,
-    gameTopics, askPlayerOption, askPlayerTopicAttempts, returnTopic, temporaryQuestionToAdd
+    gameTopics, askPlayerOption, askPlayerTopicAttempts, returnTopic, temporaryQuestionToAdd, temporaryQuestionToEdit
 } from "../utils/helpers";
 import {QuestionEditor} from "./question_editor.component";
 import {GameTopics} from "../typings/types/quiz.types";
@@ -34,17 +34,21 @@ export class Game implements IGame {
     }
 
     async startGame(): Promise<void> {
-        console.log("Welcome to quiz game.............................\n");
+        console.log("Welcome to quiz game.............................");
 
         try {
             const playerName = await this.cli.askPlayerName(askPlayerNameAttempts);
-            console.log(`Welcome, ${playerName}!. Make your choice!`);
+            console.log(`Welcome, ${playerName}!. Make your choice!` + "\n");
         } catch (error: any) {
             console.error(error.message);
             this.cli.close();
             return;
         }
 
+        await this.runMainMenu();
+    }
+
+    async runMainMenu(): Promise<void> {
         while (true) {
             try {
                 const menuChoice = await this.cli.displayMenu();
@@ -62,7 +66,7 @@ export class Game implements IGame {
                         try {
                             this.editor.setQuestions(await this.questionCollection.getAllQuestions());
                             const option = await this.cli.displayOptionsToEdit(menuQuestionExpired, askPlayerOption);
-                            await this.editQuestions(option);
+                            // await this.editQuestions(option);
                         } catch (error: any) {
                             console.log("Error: " + error.message);
                         }
@@ -102,17 +106,22 @@ export class Game implements IGame {
                 console.log("Error: " + error.message);
             }
         }
-
-        this.finishGame();
+        this.finishGame()
+        await this.runMainMenu();
     }
 
-    async editQuestions(option: string | number): Promise<void> {
-        if (option == 1) {
-            const topicToEdit = await this.cli.displayAvailableTopicsToAddQuestions(menuQuestionExpired, askPlayerTopicAttempts);
-            const gameTopic: GameTopics = returnTopic(topicToEdit);
-            this.editor.addQuestion(gameTopic, temporaryQuestionToAdd)
-        }
-    }
+    // async editQuestions(option: string | number): Promise<void> {
+    //     if (option == 1) {
+    //         const topicToAdd = await this.cli.displayAvailableTopicsToAddQuestions(menuQuestionExpired, askPlayerTopicAttempts);
+    //         const gameTopic: GameTopics = returnTopic(topicToAdd);
+    //         const newQuestionToAdd: IQuestion = await this.cli.enterQuestionToAdd(askPlayerOption)
+    //         // this.editor.addQuestion(gameTopic, newQuestionToAdd);
+    //     } else if (option == 2) {
+    //         const topicToEdit = await this.cli.displayAvailableTopicsToAddQuestions(menuQuestionExpired, askPlayerTopicAttempts);
+    //         const gameTopic: GameTopics = returnTopic(topicToEdit);
+    //         // this.editor.editQuestion(gameTopic, 1, temporaryQuestionToEdit);
+    //     }
+    // }
 
     handleAnswer(playerAnswer: number | null, question?: IQuestion): void {
         if (playerAnswer !== null && question) {
@@ -130,8 +139,8 @@ export class Game implements IGame {
     finishGame(): void {
         console.log('Quiz is over. Your final results:');
         console.log('> Score: ' + this.player.getCurrentScore());
-        console.log('> Progress: ' + this.player.getCurrentProgress() + '/' + +5);
-        this.cli.close();
+        console.log('> Progress: ' + this.player.getCurrentProgress());
+
     }
 }
 

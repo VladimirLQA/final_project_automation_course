@@ -5,4 +5,4 @@ export type GameTopicsType<T> = {
 };
 
 export type QuestionCollection = Record<string, IQuestion[]>;
-export type GameTopics = "movie" | "cars" | "technology" | "science";
+export type GameTopics = "Movie" | "Cars" | "Technology" | "Science";

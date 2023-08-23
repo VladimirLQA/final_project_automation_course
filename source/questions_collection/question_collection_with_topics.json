@@ -1,5 +1,5 @@
 {
-  "movie": [
+  "Movie": [
     {
       "question": "How many films did Sean Connery play James Bond in?",
       "options": [
@@ -41,7 +41,7 @@
       "correctAnswer": 1
     }
   ],
-  "cars": [
+  "Cars": [
     {
       "question": "Who is often credited with creating the world’s first car?",
       "options": ["Karl Benz", "Gottlieb Daimler"],
@@ -68,7 +68,7 @@
       "correctAnswer": 1
     }
   ],
-  "technology": [
+  "Technology": [
     {
       "question": "What year was the very first model of the iPhone released?",
       "options": ["2007", "2006", "2005", "2008"],
@@ -95,7 +95,7 @@
       "correctAnswer": 0
     }
   ],
-  "science": [
+  "Science": [
     {
       "question": "Who discovered penicillin?",
       "options": ["Michael Faraday", "Dmitri Mendeleev", "Alexander Fleming", "Antoine Lavoisier"],

@@ -1,5 +1,5 @@
 import {DifficultyLevel, GAMETOPICS} from "../enums/quiz.enums";
-import {QuestionCollection} from "../types/quiz.types";
+import {GameTopics, QuestionCollection} from "../types/quiz.types";
 
 export interface IQuestion {
     question: string;
@@ -8,8 +8,8 @@ export interface IQuestion {
 }
 
 export interface IQuestionEditor {
-    editQuestion(index: number, editedQuestion: IQuestion): void;
-    addQuestion(topic: GAMETOPICS, question: IQuestion): void;
+    editQuestion(topic: GameTopics, index: number, editedQuestion: IQuestion): void;
+    addQuestion(topic: GameTopics, question: IQuestion): void;
     deleteQuestionByIndex(index: number): void;
     // todo rewrite component to edit questions by topic provided
 }
