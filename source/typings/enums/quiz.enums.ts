@@ -5,8 +5,8 @@ export enum DifficultyLevel {
 }
 
 export enum GAMETOPICS {
-    MOVIE = "movie",
-    CARS = "cars",
-    TECHNOLOGY = "technology",
-    SCIENCE = "science",
+    MOVIE = "Movie",
+    CARS = "Cars",
+    TECHNOLOGY = "Technology",
+    SCIENCE = "Science",
 }
