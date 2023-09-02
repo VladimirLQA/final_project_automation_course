@@ -1,14 +1,13 @@
-# final_project_automation_course
+# Quiz game
 
-QuestionCollection  будет хранить все доступные вопросы и предоставлять методы для добавления, редактирования, удаления и случайного выбора вопросов.
+QuestionCollection: It stores all available questions and provide methods for adding, editing, deleting, and randomly selecting questions.
 
-Game  управляющий игровым процессом, отображением вопросов, вводом ответов игрока и обработкой результатов.
+Game: Manages the game process, displays questions, receives player answers, and handles results.
 
-CLI  взаимодействие с пользователем через командную строку.
+CLI: Interacts with the user through the command line.
 
-Player  Класс для хранения данных об игроке, таких как счет и прогресс.
-    Timer  для отслеживания времени ответа игрока на вопросы.
+Player: A class for storing player data, such as score and progress.
 
-QuestionEditor  для добавления, редактирования и удаления вопросов из коллекции.
+QuestionEditor: Used for adding, editing, and deleting questions from the collection.
 
-QuizApp  объединяющий все компоненты и обеспечивающий их взаимодействие.
+QuizApp: Combines all components and facilitates their interaction.
