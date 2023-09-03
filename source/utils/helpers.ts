@@ -21,7 +21,7 @@ export const expirationTime: number = Date.now() + 10000;
 export const menuQuestionExpired: number = 20000;
 export const quizQuestionExpired: number = 10000;
 
-export function getRandomTopic(): GAMETOPICS {
+export function getRandomTopicUtil(): GAMETOPICS {
     const topics = [GAMETOPICS.MOVIE, GAMETOPICS.CARS, GAMETOPICS.TECHNOLOGY, GAMETOPICS.SCIENCE];
     return topics[Math.floor(Math.random() * topics.length)];
 }

@@ -1,7 +1,7 @@
 import {IQuestion, IQuestionCollection} from "../typings/interfaces/quiz.interfaces";
 import * as fs from "fs";
 import {DifficultyLevel} from "../typings/enums/quiz.enums";
-import {getRandomTopic} from "../utils/helpers";
+import {getRandomTopicUtil} from "../utils/helpers";
 
 const data = fs.readFileSync("/home/vlqa/Desktop/git_repositories/final_project_automation_course/source/questions_collection/question_collection_with_topics.json", "utf-8");
 
@@ -14,19 +14,15 @@ export class QuestionCollection implements IQuestionCollection {
     }
 
 
-    getRandomTopic(): string {
-        return getRandomTopic();
-        // const randomTopic: string = getRandomTopic();
-        // return this.questions[randomTopic];
-         // questionsTopic[Math.floor(Math.random() * questionsTopic.length)];
-
+    public getRandomTopic(): string {
+        return getRandomTopicUtil();
     }
 
-    async getAllQuestions(): Promise<Record<string, IQuestion[]>> {
-        return new Promise((resolve, _) => resolve(this.questions))
+    public async getAllQuestions(): Promise<Record<string, IQuestion[]>> {
+        return new Promise((resolve, _) => resolve(this.questions));
     }
 
-    getQuestionsByDifficulty(diffLvl: DifficultyLevel): any {
+    public getQuestionsByDifficulty(diffLvl: DifficultyLevel): any {
         return this.questions;
     }
 
