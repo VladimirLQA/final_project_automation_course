@@ -1,5 +1,5 @@
-import {DifficultyLevel, GAMETOPICS} from "../enums/quiz.enums";
-import {GameTopics, QuestionCollection} from "../types/quiz.types";
+import { DifficultyLevel, GAMETOPICS } from "../enums/quiz.enums";
+import { GameTopics, QuestionCollection } from "../types/quiz.types";
 
 export interface IQuestion {
     question: string;
